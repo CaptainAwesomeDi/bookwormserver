@@ -1,13 +1,15 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
+const cookieSession = require("cookie-session");
+require("dotenv").config();
 
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
+const indexRouter = require("./routes/index");
+const usersRouter = require("./routes/users");
 
-var app = express();
+const app = express();
 
 // view engine setup
 // not creating webviews
@@ -19,10 +21,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(
+  cookieSession({
+    name: "userSession",
+    keys: [
+      process.env.sessionKey1,
+      process.env.sessionKey2,
+      process.env.sessionKey3,
+      process.env.sessionKey4
+    ],
+    maxAge: 7 * 24 * 60 * 60 * 1000
+  })
+);
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-
+console.log(process.env.sessionKey1);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
