@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     Book.belongsTo(models.User);
     Book.hasMany(models.BookImage);
+    Book.hasMany(models.Comment);
   };
   return Book;
 };
