@@ -1,9 +1,9 @@
 var express = require("express");
 var router = express.Router();
 const bcrypt = require("bcrypt");
-const User = require("../models/").User;
+const db = require("../models/index");
 const sequelize = require("sequelize");
-
+const User = db.User;
 /* GET users listing. */
 router.get("/", function(req, res, next) {
   res.send(JSON.stringify({ hello: "world" }));

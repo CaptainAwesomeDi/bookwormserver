@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const User = require("../models/").User;
+const db = require("../models/index");
+const User = db.users;
 /* GET home page. */
 router.get("/", function(req, res, next) {
   res.render("index", { title: "Express" });
