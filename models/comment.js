@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     "Comment",
     {
       message: {
-        type: sequelize.STRING,
+        type: DataTypes.STRING,
         validate: {
           notEmpty: true
         }
