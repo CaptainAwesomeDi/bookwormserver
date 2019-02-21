@@ -5,14 +5,19 @@ module.exports = (sequelize, DataTypes) => {
     {
       email: {
         type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        lowercase: true,
         validate: {
           isEmail: true,
-          notNull: true,
-          isUnique(value) {
-            const existingEmail = User.findOne({ where: { email: value } });
-            if (existingEmail) {
-              throw new Error("This Email address have been used");
-            }
+          is_Unique(value, next) {
+            console.log(next);
+            User.findOne({ where: { email: value } }).done(user => {
+              if (user) {
+                return next("Email address is already in use");
+              }
+              next();
+            });
           }
         }
       },
@@ -22,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       nickname: {
         type: DataTypes.STRING,
         validate: {
-          len: [2, 10]
+          len: [2, 24]
         }
       }
     },

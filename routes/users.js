@@ -12,27 +12,25 @@ router.get("/", function(req, res, next) {
 router.post("/register", (req, res, next) => {
   const userInfo = req.body;
   if (userInfo.password !== userInfo.passwordConfirmation) {
-    res.send(
-      JSON.stringify({
-        errorMessage:
-          "Please make sure password and password confirmation match!"
-      })
-    );
+    res.json({
+      errorMessage: "Please make sure password and password confirmation match!"
+    });
   } else {
-    bcrypt.hash(userInfo.password, 10, (err, hash) => {
-      User.build({
+    bcrypt.hash(userInfo.password, 10).then(hash => {
+      User.create({
         email: userInfo.email,
         password: hash,
         firstName: userInfo.firstName,
         lastName: userInfo.lastName,
         nickname: userInfo.nickname
       })
-        .save()
+        .then(user => {
+          res.json({ success: 1 });
+        })
         .catch(e => {
-          res.send("error occurred saving user: ${e}");
+          res.json({ error: `error saving user ${e}` });
         });
     });
-    res.send(JSON.stringify({ success: 1 }));
   }
 });
 
