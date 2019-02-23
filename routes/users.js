@@ -34,4 +34,20 @@ router.post("/register", (req, res, next) => {
   }
 });
 
+router.get("/:id/books", (req, res) => {
+  userId = req.params.id;
+  User.findOne({ where: { id: userId } }).then(user => {
+    user
+      .getBooks({ where: { id: 1 } })
+      .then(books => {
+        const booksA = [];
+        for (i = 0; i < books.length; i++) {
+          booksA.push(books[i].dataValues.name);
+        }
+        res.json({ books: `${booksA}` });
+      })
+      .catch(e => res.send(`${e}`));
+  });
+});
+
 module.exports = router;

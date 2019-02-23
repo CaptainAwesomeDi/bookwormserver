@@ -13,10 +13,39 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 const db = require("../models/index");
 const BookImage = db.BookImage;
+const Book = db.Book;
+const User = db.User;
+
+// router.post("/", upload.single("bookImage"), (req, res, next) => {
+//   console.log(req.file.url);
+//   res.send("books home!");
+// });
 
 router.post("/", upload.single("bookImage"), (req, res, next) => {
-  console.log(req.file.url);
-  res.send("books home!");
+  try {
+    const bookParams = req.body;
+    Book.create({
+      name: bookParams.name,
+      author: bookParams.author,
+      isbn: bookParams.isbn,
+      UserId: 1,
+      include: [User]
+    })
+      .then(book => {
+        res.json({ book: book });
+      })
+      .catch(e => {
+        res.send(`${e}`);
+      });
+  } catch (error) {
+    res.json({ e: `${error}` });
+  }
+});
+
+router.get("/:id", (req, res) => {
+  Book.findOne({ where: { id: req.params.id } }).then(book => {
+    res.json({ book: `${book.dataValues.UserId}` });
+  });
 });
 
 module.exports = router;

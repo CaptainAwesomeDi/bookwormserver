@@ -5,7 +5,7 @@ const db = require("../models/index");
 const User = db.User;
 /* GET home page. */
 router.get("/", function(req, res, next) {
-  res.render("index", { title: "Express" });
+  res.json({ homepage: "hello" });
 });
 
 router.post("/login", (req, res, next) => {

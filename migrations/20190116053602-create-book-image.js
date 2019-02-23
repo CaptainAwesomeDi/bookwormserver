@@ -17,6 +17,22 @@ module.exports = {
       path: {
         type: Sequelize.STRING
       },
+      BookId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "Books",
+          key: "id"
+        }
+      },
+      UserId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "Users",
+          key: "id"
+        }
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

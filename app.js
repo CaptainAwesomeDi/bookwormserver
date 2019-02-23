@@ -8,7 +8,7 @@ require("dotenv").config();
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
-const bookRouter = require('./routes/books');
+const bookRouter = require("./routes/books");
 
 const app = express();
 
@@ -34,10 +34,10 @@ app.use(
     maxAge: 7 * 24 * 60 * 60 * 1000
   })
 );
-
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/books", bookRouter);
+//app.use(loadCurrentUser.loadCurrentUser());
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
