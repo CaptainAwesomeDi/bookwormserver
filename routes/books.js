@@ -22,24 +22,20 @@ const User = db.User;
 // });
 
 router.post("/", upload.single("bookImage"), (req, res, next) => {
-  try {
-    const bookParams = req.body;
-    Book.create({
-      name: bookParams.name,
-      author: bookParams.author,
-      isbn: bookParams.isbn,
-      UserId: 1,
-      include: [User]
+  const bookParams = req.body;
+  Book.create({
+    name: bookParams.name,
+    author: bookParams.author,
+    isbn: bookParams.isbn,
+    UserId: 1,
+    include: [User]
+  })
+    .then(book => {
+      res.json({ book: book });
     })
-      .then(book => {
-        res.json({ book: book });
-      })
-      .catch(e => {
-        res.send(`${e}`);
-      });
-  } catch (error) {
-    res.json({ e: `${error}` });
-  }
+    .catch(e => {
+      res.json({ e: `${e}` });
+    });
 });
 
 router.get("/:id", (req, res) => {
