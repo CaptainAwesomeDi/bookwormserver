@@ -9,10 +9,14 @@ module.exports = {
       const match = await bcrypt.compare(password, user.password);
       if (match) {
         req.session.userId = user.id;
-        res.send(JSON.stringify({ success: 1, user: user }));
+        res.json({ success: 1, user: user });
       } else {
-        res.send("login failed");
+        res.json({ message: "login failed" });
       }
     });
+  },
+  logout: (req, res, next) => {
+    req.session = null;
+    res.json({ message: "logout successful" });
   }
 };
